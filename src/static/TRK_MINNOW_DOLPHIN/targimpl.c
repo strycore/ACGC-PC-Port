@@ -1023,7 +1023,7 @@ DSError TRKTargetSupportRequest(void) {
     return error;
 }
 
-DSError TRKTargetFlushCache(u8, void* start, void* end)
+DSError TRKTargetFlushCache(u8 _p1, void* start, void* end)
 {
     if (start < end) {
         TRK_flush_cache(start, (u8*)end - (u8*)start);

@@ -23,7 +23,7 @@ f32 sqrtf2(f32 x)
  * Address:	........
  * Size:	000020
  */
-void cosf2(f32)
+void cosf2(f32 _p1)
 {
 	// UNUSED FUNCTION
 }

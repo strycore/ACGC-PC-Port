@@ -30,7 +30,7 @@ static void aTOL_actor_ct(ACTOR* actor, GAME* game) {
     aTOL_init_clip_area(game);
 }
 
-static void aTOL_actor_dt(ACTOR*, GAME*) {
+static void aTOL_actor_dt(ACTOR* _p1, GAME* _p2) {
     aTOL_free_clip_area();
 }
 
