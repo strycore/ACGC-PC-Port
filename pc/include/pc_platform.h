@@ -1,6 +1,10 @@
 /* pc_platform.h - SDL2/OpenGL platform layer, global state, crash protection */
 #ifndef PC_PLATFORM_H
 #define PC_PLATFORM_H
+/* Enable GNU extensions on Linux (needed for Dl_info, dladdr in pc_main.c) */
+#if defined(__linux__)
+#define _GNU_SOURCE
+#endif
 
 /* 32-bit required: decomp code (JSystem, emu64) casts pointers to u32 */
 #include <stdint.h>
@@ -51,6 +55,7 @@
 #undef near
 #undef far
 #else
+#define _GNU_SOURCE  /* Required for Dl_info and dladdr */
 #include <signal.h>
 #include <sys/mman.h>
 #include <dlfcn.h>
