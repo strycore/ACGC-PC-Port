@@ -5,6 +5,9 @@
 #include "MSL_C/w_math.h"
 
 #ifdef TARGET_PC
+#ifndef _WIN32
+#include <sys/mman.h>
+#endif
 /* Executable image range from pc_main.c — BSS/data can collide with N64 segments */
 extern "C" unsigned int pc_image_base;
 extern "C" unsigned int pc_image_end;
@@ -24,11 +27,19 @@ static int seg2k0_is_committed(u32 addr) {
         }
     }
     /* Cache miss — query the OS */
-    MEMORY_BASIC_INFORMATION mbi;
     int committed = 0;
+#ifdef _WIN32
+    MEMORY_BASIC_INFORMATION mbi;
     if (VirtualQuery((void*)addr, &mbi, sizeof(mbi)) > 0 && mbi.State == MEM_COMMIT) {
         committed = 1;
     }
+#else
+    /* On Linux, use msync() to probe if a page is mapped.
+     * msync() returns 0 on mapped pages, -1/ENOMEM on unmapped. */
+    if (msync((void*)(addr & ~0xFFF), 1, MS_ASYNC) == 0) {
+        committed = 1;
+    }
+#endif
     seg2k0_page_cache[seg2k0_cache_next].page = page;
     seg2k0_page_cache[seg2k0_cache_next].committed = committed;
     seg2k0_cache_next = (seg2k0_cache_next + 1) % SEG2K0_PAGE_CACHE_SIZE;

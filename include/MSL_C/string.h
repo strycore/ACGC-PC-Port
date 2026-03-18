@@ -1,6 +1,11 @@
 #ifndef _MSL_COMMON_STRING_H
 #define _MSL_COMMON_STRING_H
 
+#ifdef TARGET_PC
+/* On PC, use system string.h instead of Metrowerks MSL_C */
+#include_next <string.h>
+#else
+
 #include "stddef.h"
 
 #ifdef __cplusplus
@@ -34,4 +39,5 @@ using ::strrchr;
 }; // namespace std
 #endif
 
+#endif /* TARGET_PC */
 #endif /* _MSL_COMMON_STRING_H */

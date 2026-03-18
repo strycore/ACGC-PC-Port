@@ -1,5 +1,5 @@
-#ifndef _CTYPE_H
-#define _CTYPE_H
+#ifndef _MSL_CTYPE_H
+#define _MSL_CTYPE_H
 
 #ifdef TARGET_PC
 /* On PC, use system ctype.h instead of Metrowerks MSL_C */
