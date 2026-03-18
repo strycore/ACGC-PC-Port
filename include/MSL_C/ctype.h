@@ -1,6 +1,11 @@
 #ifndef _CTYPE_H
 #define _CTYPE_H
 
+#ifdef TARGET_PC
+/* On PC, use system ctype.h instead of Metrowerks MSL_C */
+#include_next <ctype.h>
+#else
+
 #include "MSL_C/locale.h"
 #include "MSL_C/ctype_api.h"
 
@@ -43,4 +48,5 @@ inline int _toupper(int c) {
 #ifdef __cplusplus
 }
 #endif
+#endif /* TARGET_PC */
 #endif
