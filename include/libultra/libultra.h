@@ -22,9 +22,16 @@ extern "C" {
 
 typedef u64 Z_OSTime;
 
+#ifdef __linux__
+/* On Linux, glibc's strings.h declares bcmp/bcopy/bzero with different
+ * signatures (const qualifiers, size_t vs u32). The declarations are
+ * ABI-compatible on i686, so just use glibc's versions. */
+#include <strings.h>
+#else
 int bcmp(void* v1, void* v2, u32 size);
 void bcopy(void* src, void* dst, size_t n);
 void bzero(void* ptr, size_t size);
+#endif
 void osSyncPrintf(const char* fmt, ...);
 void osWritebackDCache(void* vaddr, u32 nbytes);
 u32 osGetCount(void);
