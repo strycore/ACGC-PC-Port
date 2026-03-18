@@ -50,23 +50,26 @@ extern "C" {
 #define CONT_ERR_VOICE_NO_RESPONSE 15
 
 #ifdef TARGET_PC
-/* 'errno' is a macro on PC (from <errno.h>), rename the struct member */
+/* 'errno' is a macro on Linux/glibc (from <errno.h>). Rename the struct
+ * field to cont_errno to avoid conflicts on all PC platforms. */
 #ifdef errno
 #undef errno
 #endif
+
 typedef struct {
     u16 type;
     u8 status;
-    u8 errno;
+    u8 cont_errno;
 } OSContStatus;
 
 typedef struct {
     /* 0x00 */ u16 button;
     /* 0x02 */ s8 stick_x;
     /* 0x03 */ s8 stick_y;
-    /* 0x04 */ u8 errno;
+    /* 0x04 */ u8 cont_errno;
 } OSContPad;
-/* Restore errno macro */
+
+/* Restore errno macro for standard library usage */
 #include <errno.h>
 #else
 
